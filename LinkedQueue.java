@@ -70,11 +70,17 @@ public class LinkedQueue<D> implements Queue<D> {
 	}
 
 	public D peek() {
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
+		return front.value;
 	}
 
 	public int size() {
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
+		int count = 0;
+		Elem<D> elm = front;
+		while(elm.next != null){
+			count ++;
+			elm = elm.next;
+		}
+		return count;
 	}
 
 	public String toString() {

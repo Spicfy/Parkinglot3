@@ -4,8 +4,11 @@ public class CapacityOptimizer {
 	private static final double THRESHOLD = 5.0d;
 
 	public static int getOptimalNumberOfSpots(int hourlyRate) {
+		for(int i = 1; i <= NUM_RUNS; i++){
+			System.out.println("Simulation run " + i + +" "+ );
+		}
 	
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
+		
 	
 	}
 
