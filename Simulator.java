@@ -71,7 +71,18 @@ public class Simulator {
 	 */
 	public Simulator(ParkingLot lot, int perHourArrivalRate, int steps) {
 	
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
+		//throw new UnsupportedOperationException("This method has not been implemented yet!");
+		this.lot = lot;
+
+		this.clock = 0;
+
+		this.steps = steps;
+
+		this.probabilityOfArrivalPerSec = new Rational(perHourArrivalRate, 3600);
+
+		incomingQueue = new LinkedQueue<Spot>();
+		outgoingQueue = new LinkedQueue<Spot>();
+
 	}
 
 
@@ -82,13 +93,63 @@ public class Simulator {
 	 */
 	public void simulate() {
 	
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
-	
+		//throw new UnsupportedOperationException("This method has not been implemented yet!");
+		while (clock<steps){
+			if (CarArrivesThisSecond(probabilityOfArrivalPerSec)){
+				String string = RandomGenerator.generateRandomString(PLATE_NUM_LENGTH);
+				Car car = new Car(string);
+				Spot spot = new Spot(car, clock);
+				incomingQueue.enqueue(spot);
+
+			}
+			for (int i = 0;i<lot.getOccupancy();i++){
+				Spot parkedcar = lot.getSpotAt(i);
+				if (parkedcar==null){
+
+				}
+				else{
+					if (clock-parkedcar.getTimestamp()==MAX_PARKING_DURATION){
+						outgoingQueue.enqueue(parkedcar);
+						lot.remove(i);
+
+					}
+					else if (clock-parkedcar.getTimestamp()<MAX_PARKING_DURATION){
+						if (RandomGenerator.eventOccurred(departurePDF.pdf(parkedcar.getTimestamp()))){
+							outgoingQueue.enqueue(parkedcar);
+							lot.remove(i);
+						}
+					}
+				}
+			}
+			if (!incomingQueue.isEmpty()){
+				Spot s = incomingQueue.peek();
+				Car c = s.getCar();
+				if (lot.attemptParking(c, clock)){
+					System.out.println(c+" ENTERED at timestep "+clock+"; occupancy is at "+lot.getOccupancy());
+					incomingQueue.dequeue(); 
+				}
+
+			}
+			if (!outgoingQueue.isEmpty()){
+				Spot s = outgoingQueue.dequeue();
+				Car c = s.getCar();
+				System.out.println(c+" EXITED at timestep "+clock+"; occupancy is at "+lot.getOccupancy());
+				
+
+			}
+
+		}
+	}
+
+	private boolean CarArrivesThisSecond(Rational probability){
+		boolean probabilistically = RandomGenerator.eventOccurred(probability);
+		return probabilistically; 
+		
 	}
 
 	public int getIncomingQueueSize() {
 	
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
-	
+		//throw new UnsupportedOperationException("This method has not been implemented yet!");
+		return incomingQueue.size();
 	}
 }
