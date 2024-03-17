@@ -1,32 +1,37 @@
+
 public class CapacityOptimizer {
 	private static final int NUM_RUNS = 10;
 
 	private static final double THRESHOLD = 5.0d;
-	private static int n = 1;
 
 	public static int getOptimalNumberOfSpots(int hourlyRate) {
-		int sum = 0;
-		System.out.println("==== Setting lot capacity to: " + n + "====");
-		for(int i = 1; i <= NUM_RUNS; i++){
-			long start = System.currentTimeMillis();
-			ParkingLot lot = new ParkingLot(n);
-			Simulator sim = new Simulator(lot, hourlyRate, 86400);
-			sim.simulate();
-			int queueSize = sim.getIncomingQueueSize();
-			long end = System.currentTimeMillis();
+		int n = 1;
+		boolean flag = true;
+		while(flag){
+			int sum = 0;
+			System.out.println("==== Setting lot capacity to: " + n + "====");
+			for(int i = 1; i <= NUM_RUNS; i++){
+				long start = System.currentTimeMillis();
+				ParkingLot lot = new ParkingLot(n);
+				Simulator sim = new Simulator(lot, hourlyRate, 86400);
+				sim.simulate();
+				int queueSize = sim.getIncomingQueueSize();
+				long end = System.currentTimeMillis();
 
-			System.out.println("Simulation run "+ i + "(" + (end - start)+"ms); Queue length at the end of simulation run: "+ queueSize);
+				System.out.println("Simulation run "+ i + "(" + (end - start)+"ms); Queue length at the end of simulation run: "+ queueSize);
 
-			sum += queueSize;
-		}
-		double avg = sum/NUM_RUNS;
-		if (avg <= THRESHOLD){
-			return n;
-		}
-		else{
-			n++;
-			return getOptimalNumberOfSpots(hourlyRate);
-		}
+				sum += queueSize;
+			}
+			double avg = sum/NUM_RUNS;
+			if (avg <= THRESHOLD){
+				flag = false;
+			}
+			else{
+				n++;
+				//return getOptimalNumberOfSpots(hourlyRate);
+			}
+	}
+	return n;
 
 	
 		
@@ -34,7 +39,7 @@ public class CapacityOptimizer {
 	}
 
 	public static void main(String args[]) {
-	getOptimalNumberOfSpots(3);
+	
 
 	
 		StudentInfo.display();
