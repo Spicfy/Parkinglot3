@@ -4,9 +4,24 @@ public class CapacityOptimizer {
 	private static final double THRESHOLD = 5.0d;
 
 	public static int getOptimalNumberOfSpots(int hourlyRate) {
+		int n = 1;
+		int sum = 0;
 		for(int i = 1; i <= NUM_RUNS; i++){
-			System.out.println("Simulation run " + i + +" "+ );
+			ParkingLot lot = new ParkingLot(n);
+			Simulator sim = new Simulator(lot, hourlyRate,86400);
+			sim.simulate();
+			int queueSize = sim.getIncomingQueueSize();
+			sum += queueSize;
 		}
+		double avg = sum/10;
+		if (avg <= THRESHOLD){
+			return n;
+		}
+		else{
+			n++;
+			return getOptimalNumberOfSpots(hourlyRate);
+		}
+
 	
 		
 	
