@@ -125,7 +125,7 @@ public class Simulator {
 				Spot s = incomingQueue.peek();
 				Car c = s.getCar();
 				if (lot.attemptParking(c, clock)){
-					System.out.println(c+" ENTERED at timestep "+clock+"; occupancy is at "+lot.getOccupancy());
+				//	System.out.println(c+" ENTERED at timestep "+clock+"; occupancy is at "+lot.getOccupancy());
 					incomingQueue.dequeue(); 
 				}
 
@@ -133,12 +133,14 @@ public class Simulator {
 			if (!outgoingQueue.isEmpty()){
 				Spot s = outgoingQueue.dequeue();
 				Car c = s.getCar();
-				System.out.println(c+" EXITED at timestep "+clock+"; occupancy is at "+lot.getOccupancy());
+		//		System.out.println(c+" EXITED at timestep "+clock+"; occupancy is at "+lot.getOccupancy());
 				
 
 			}
 
+			clock ++;
 		}
+
 	}
 
 	private boolean CarArrivesThisSecond(Rational probability){

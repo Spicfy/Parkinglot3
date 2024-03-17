@@ -10,7 +10,7 @@
 // 2) write a peek method
 
 public class LinkedQueue<D> implements Queue<D> {
-
+	private int size = 0;
 	private static class Elem<T> {
 		private T value;
 		private Elem<T> next;
@@ -49,6 +49,7 @@ public class LinkedQueue<D> implements Queue<D> {
 			rear.next = newElem;
 			rear = newElem;
 		}
+		size++;
 	}
 
 	public D dequeue() {
@@ -65,6 +66,7 @@ public class LinkedQueue<D> implements Queue<D> {
 		} else {
 			front = front.next;
 		}
+		size--;
 
 		return returnedValue;
 	}
@@ -74,13 +76,7 @@ public class LinkedQueue<D> implements Queue<D> {
 	}
 
 	public int size() {
-		int count = 0;
-		Elem<D> elm = front;
-		while(elm.next != null){
-			count ++;
-			elm = elm.next;
-		}
-		return count;
+		return size;
 	}
 
 	public String toString() {
