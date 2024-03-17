@@ -34,6 +34,8 @@ public class CapacityOptimizer {
 	}
 
 	public static void main(String args[]) {
+		int a = getOptimalNumberOfSpots(3);
+		System.out.println(a);
 	
 		StudentInfo.display();
 

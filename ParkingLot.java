@@ -25,10 +25,11 @@ public class ParkingLot {
 	public ParkingLot(int capacity) {
 
 		if (capacity < 0) {
+			throw new IllegalArgumentException("Capacity cannot be negative!");
 		
-			// Hint: throw a suitable exception here.
-		
+			// Hint: throw a suitable exception here.	
 		}
+		this.capacity = capacity;
 
 		this.capacity = capacity;
 		this.occupancy = new SinglyLinkedList<Spot>();
@@ -41,8 +42,9 @@ public class ParkingLot {
 	 * @param timestamp is the (simulated) time when the car gets parked in the lot
 	 */
 	public void park(Car c, int timestamp) {
-	
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
+		Spot s = new Spot(c, timestamp);
+		occupancy.add(s);
+		
 	
 	}
 
@@ -53,14 +55,31 @@ public class ParkingLot {
 	 * @return the car (spot) that has been removed
 	 */
 	public Spot remove(int i) {
+		Spot saved = null;
+		if (i < 0 || i >= occupancy.size()) {
+			throw new IndexOutOfBoundsException();
+		}
+		for (int j = 0; j < occupancy.size(); j++) {
+			if (j == i) {
+				occupancy.remove(j);
+				saved = occupancy.get(j);
+			}
+		}
+		return saved;
 	
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
+		
 	
 	}
 
 	public boolean attemptParking(Car c, int timestamp) {
 	
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
+		if(occupancy.size() == capacity){
+			return false;
+		}
+		else{
+			return true;
+		}
+		
 	
 	}
 
@@ -79,8 +98,11 @@ public class ParkingLot {
 	 * @return the spot instance at a given position (i, j)
 	 */
 	public Spot getSpotAt(int i) {
-
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
+		if(i < 0 || i>=occupancy.size()){
+			throw new IndexOutOfBoundsException();
+		}
+		return occupancy.get(i);
+		
 
 	}
 
@@ -89,7 +111,7 @@ public class ParkingLot {
 	 */
 	public int getOccupancy() {
 
-		throw new UnsupportedOperationException("This method has not been implemented yet!");
+		return occupancy.size();
 
 	}
 
