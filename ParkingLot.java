@@ -59,10 +59,13 @@ public class ParkingLot {
 		if (i < 0 || i >= occupancy.size()) {
 			throw new IndexOutOfBoundsException();
 		}
+		if(occupancy.size() == 0){
+			return null;
+		}
 		for (int j = 0; j < occupancy.size(); j++) {
 			if (j == i) {
-				occupancy.remove(j);
 				saved = occupancy.get(j);
+				occupancy.remove(j);
 			}
 		}
 		return saved;

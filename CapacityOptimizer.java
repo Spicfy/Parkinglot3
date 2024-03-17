@@ -2,20 +2,20 @@ public class CapacityOptimizer {
 	private static final int NUM_RUNS = 10;
 
 	private static final double THRESHOLD = 5.0d;
+	private static int n = 1;
 
 	public static int getOptimalNumberOfSpots(int hourlyRate) {
-		int n = 1;
 		int sum = 0;
 		System.out.println("==== Setting lot capacity to: " + n + "====");
 		for(int i = 1; i <= NUM_RUNS; i++){
 			long start = System.currentTimeMillis();
 			ParkingLot lot = new ParkingLot(n);
-			Simulator sim = new Simulator(lot, hourlyRate,86400);
+			Simulator sim = new Simulator(lot, hourlyRate, 86400);
 			sim.simulate();
 			int queueSize = sim.getIncomingQueueSize();
 			long end = System.currentTimeMillis();
 
-			System.out.println("Simulation run "+ n + "(" + (end - start)+"); Queue length at the end of simulation run: "+ queueSize);
+			System.out.println("Simulation run "+ i + "(" + (end - start)+"ms); Queue length at the end of simulation run: "+ queueSize);
 
 			sum += queueSize;
 		}
