@@ -39,7 +39,7 @@ public class CapacityOptimizer {
 	}
 
 	public static void main(String args[]) {
-	
+	//getOptimalNumberOfSpots(3);
 
 	
 		StudentInfo.display();
